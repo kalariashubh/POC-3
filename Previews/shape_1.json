@@ -1,0 +1,11 @@
+{
+  "signature": {
+    "topology": "open_chain",
+    "segment_count": 2,
+    "signed_angles": [
+      -90
+    ],
+    "first_last_parallel": false
+  },
+  "preview_image": "shape_1.png"
+}
