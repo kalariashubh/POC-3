@@ -1,4 +1,4 @@
-// CODE FOR JSON AND PNG (BOTH)
+// CODE FOR PNG AND JSON
 
 using System;
 using System.Collections.Generic;
@@ -319,5 +319,4 @@ namespace RebarShapePlugin
             File.WriteAllText(fullPath, json);
         }
     }
-
 }
