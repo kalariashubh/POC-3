@@ -1,4 +1,4 @@
-// CODE FOR ONLY PNG (VERSION 2)
+// CODE FOR ONLY PNG (VERSION 2) 
 
 using System;
 using System.Collections.Generic;
