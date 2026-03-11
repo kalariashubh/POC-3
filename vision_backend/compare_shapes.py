@@ -98,9 +98,11 @@ def get_shapes_without_signature(metadata, category):
         if not key.lower().startswith(category):
             continue
 
-        signatures = data.get("signatures")
+        # check both formats
+        has_multi = "signatures" in data and len(data["signatures"]) > 0
+        has_single = "signature" in data and data["signature"]
 
-        if not signatures:
+        if not has_multi and not has_single:
             shapes.append(key + ".png")
 
     return shapes
