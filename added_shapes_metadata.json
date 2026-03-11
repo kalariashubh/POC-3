@@ -1,0 +1,80 @@
+{
+    "beam27": {
+        "category": "Beam",
+        "name": "ABCD BEAM ",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            }
+        ]
+    },
+    "slab24": {
+        "category": "Slab",
+        "name": "SLAB IMAGE TESTING"
+    },
+    "slab25": {
+        "category": "Slab",
+        "name": "slab test",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 4,
+                "signed_angles": [
+                    -90,
+                    -46.83,
+                    46.83
+                ],
+                "first_last_parallel": false,
+                "segment_directions": [
+                    "up",
+                    "right",
+                    "down",
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left",
+                    "up",
+                    "left",
+                    "down"
+                ]
+            }
+        ]
+    },
+    "slab26": {
+        "category": "Slab",
+        "name": "abcd slab test final",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 4,
+                "signed_angles": [
+                    -90,
+                    -46.83,
+                    46.83
+                ],
+                "first_last_parallel": false,
+                "segment_directions": [
+                    "up",
+                    "right",
+                    "down",
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left",
+                    "up",
+                    "left",
+                    "down"
+                ]
+            }
+        ]
+    }
+}

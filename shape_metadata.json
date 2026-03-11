@@ -1,0 +1,1102 @@
+{
+    "beam1": {
+        "category": "Beam",
+        "name": "Right continuous bottom bar - different depths",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "down",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "up"
+            ]
+        }
+    },
+    "beam2": {
+        "category": "Beam",
+        "name": "Left Continuous bottom bar - Different depths"
+    },
+    "beam3": {
+        "category": "Beam",
+        "name": "Top Continuous Bar - Different depths",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                -90,
+                -90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "up",
+                "right",
+                "down"
+            ],
+            "reverse_directions": [
+                "up",
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam4": {
+        "category": "Beam",
+        "name": "Bottom Continuous Bar - less than 12m",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "beam5": {
+        "category": "Beam",
+        "name": "Top continuous bar - less than 12m",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                -90,
+                -90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "up",
+                "right",
+                "down"
+            ],
+            "reverse_directions": [
+                "up",
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam6": {
+        "category": "Beam",
+        "name": "Extra Top Bar Continuous End - Less than 12m",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "beam7": {
+        "category": "Beam",
+        "name": "Main Bottom Continuous Bar right - Greater than 12m",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "down",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "up"
+            ]
+        }
+    },
+    "beam8": {
+        "category": "Beam",
+        "name": "Main bottom continuous bar left (Greater than 12m)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "down",
+                "right"
+            ],
+            "reverse_directions": [
+                "left",
+                "up"
+            ]
+        }
+    },
+    "beam9": {
+        "category": "Beam",
+        "name": "Extra Top Bar Right - Continuous Beam greater than 12m",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "down"
+            ]
+        }
+    },
+    "beam10": {
+        "category": "Beam",
+        "name": "Extra Top Bar Left - (Continuous beam greater than 12m)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "right"
+            ],
+            "reverse_directions": [
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam11": {
+        "category": "Beam",
+        "name": "Right End Extra Top Bar (Continuous Beam - less than 12m)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "down"
+            ]
+        }
+    },
+    "beam12": {
+        "category": "Beam",
+        "name": "Main top bar right(Continuous Beam - greater than 12m)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "down"
+            ]
+        }
+    },
+    "beam13": {
+        "category": "Beam",
+        "name": "Left End Extra Top Bar (Continuous Beam - less than 12 m)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "right"
+            ],
+            "reverse_directions": [
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam14": {
+        "category": "Beam",
+        "name": "Main Top Bar Left(Continuous Beam - greater than 12 m)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "right"
+            ],
+            "reverse_directions": [
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam15": {
+        "category": "Beam",
+        "name": "Extra Mid Bottom Bar, Span - 1 (Continuous Beam - greater than 12m)",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "beam16": {
+        "category": "Beam",
+        "name": "Extra Mid Bottom Bar (Continuous Beam - less than 12m)",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "beam17": {
+        "category": "Beam",
+        "name": "Extra Mid Bottom Bar, Span - 2 (Continuous Beam - greater than 12m)",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "beam18": {
+        "category": "Beam",
+        "name": "Chipia"
+    },
+    "beam19": {
+        "category": "Beam",
+        "name": "Stirrups- INNER RING"
+    },
+    "beam20": {
+        "category": "Beam",
+        "name": "INNER RING"
+    },
+    "beam21": {
+        "category": "Beam",
+        "name": "OUTER RING STIRRUPS"
+    },
+    "beam22": {
+        "category": "Beam",
+        "name": "BOTTOM EXTRA BAR",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "beam23": {
+        "category": "Beam",
+        "name": "TOP EXTRA BAR -RIGHT",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "down"
+            ]
+        }
+    },
+    "beam24": {
+        "category": "Beam",
+        "name": "TOP BAR",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                -90,
+                -90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "up",
+                "right",
+                "down"
+            ],
+            "reverse_directions": [
+                "up",
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam25": {
+        "category": "Beam",
+        "name": "TOP EXTRA BAR -LEFT",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "up",
+                "right"
+            ],
+            "reverse_directions": [
+                "left",
+                "down"
+            ]
+        }
+    },
+    "beam26": {
+        "category": "Beam",
+        "name": "BOTTOM BAR",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "beam27": {
+        "category": "Beam",
+        "name": "ABCD BEAM ",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            }
+        ]
+    },
+    "column1": {
+        "category": "Column",
+        "name": "6L Stirrups - INNER RING"
+    },
+    "column2": {
+        "category": "Column",
+        "name": "INNER RING"
+    },
+    "column3": {
+        "category": "Column",
+        "name": "OUTER RING"
+    },
+    "column4": {
+        "category": "Column",
+        "name": "Circular Stirrups"
+    },
+    "column5": {
+        "category": "Column",
+        "name": "Trapazium Stirrups"
+    },
+    "column6": {
+        "category": "Column",
+        "name": "Chipia"
+    },
+    "column7": {
+        "category": "Column",
+        "name": "Triangular Stirrups"
+    },
+    "column8": {
+        "category": "Column",
+        "name": "COLUMNS FROM - FLOOR LEVEL TO TERRACE LEVEL"
+    },
+    "column9": {
+        "category": "Column",
+        "name": "COLUMNS FROM - FLOOR LEVEL TO FLOOR LEVEL",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "up"
+                ],
+                "reverse_directions": [
+                    "down"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "down"
+                ],
+                "reverse_directions": [
+                    "up"
+                ]
+            }
+        ]
+    },
+    "column10": {
+        "category": "Column",
+        "name": "COLUMNS FROM - PLINTH LEVEL TO 1st FLOOR LEVEL",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "up"
+                ],
+                "reverse_directions": [
+                    "down"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "down"
+                ],
+                "reverse_directions": [
+                    "up"
+                ]
+            }
+        ]
+    },
+    "column11": {
+        "category": "Column",
+        "name": "COLUMNS FROM FOOTING / RAFT BOTTOM TO BASEMENT-1 /BASEMENT- 2 / PLINTH LEVEL"
+    },
+    "footing1": {
+        "category": "Footing",
+        "name": "CHAIR IN RAFT"
+    },
+    "footing2": {
+        "category": "Footing",
+        "name": "RAFT EXTRA TOP AND BOTTOM BARS",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "footing3": {
+        "category": "Footing",
+        "name": "SIDE FACE REINFORCEMENT (SFR) IN Y-DIR",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "footing4": {
+        "category": "Footing",
+        "name": "SIDE FACE REINFORCEMENT (SFR) IN X-DIR",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "left"
+                ],
+                "reverse_directions": [
+                    "right"
+                ]
+            },
+            {
+                "topology": "open_chain",
+                "segment_count": 1,
+                "signed_angles": [],
+                "first_last_parallel": true,
+                "segment_directions": [
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left"
+                ]
+            }
+        ]
+    },
+    "footing5": {
+        "category": "Footing",
+        "name": "RAFT TOP BARS- Y (DIR)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                -90,
+                -90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "up",
+                "right",
+                "down"
+            ],
+            "reverse_directions": [
+                "up",
+                "left",
+                "down"
+            ]
+        }
+    },
+    "footing6": {
+        "category": "Footing",
+        "name": "RAFT TOP BARS- X (DIR)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                -90,
+                -90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "up",
+                "right",
+                "down"
+            ],
+            "reverse_directions": [
+                "up",
+                "left",
+                "down"
+            ]
+        }
+    },
+    "footing7": {
+        "category": "Footing",
+        "name": "RAFT BOTTOM EXTRA BARS-RIGHT",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                -90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "down",
+                "left"
+            ],
+            "reverse_directions": [
+                "right",
+                "up"
+            ]
+        }
+    },
+    "footing8": {
+        "category": "Footing",
+        "name": "RAFT BOTTOM EXTRA BARS-LEFT",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 2,
+            "signed_angles": [
+                90
+            ],
+            "first_last_parallel": false,
+            "segment_directions": [
+                "down",
+                "right"
+            ],
+            "reverse_directions": [
+                "left",
+                "up"
+            ]
+        }
+    },
+    "footing9": {
+        "category": "Footing",
+        "name": "RAFT BOTTOM BARS -Y (DIR)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "footing10": {
+        "category": "Footing",
+        "name": "RAFT BOTTOM BARS -X (DIR)",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "footing11": {
+        "category": "Footing",
+        "name": "FOOTING DISTRIBUTION BAR",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "footing12": {
+        "category": "Footing",
+        "name": "FOOTING MAIN BAR",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "slab1": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED END (Y-DIR) (L & T Shape)"
+    },
+    "slab2": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED END (X2-DIR)"
+    },
+    "slab3": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED END (Y1+Y2 DIR) (L & T Shape)"
+    },
+    "slab4": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED END (X1-DIR) (L & T Shape)"
+    },
+    "slab5": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN CONTINUOUS TOP END (Y-DIR)"
+    },
+    "slab6": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN CONTINUOUS BOTTOM END (Y-DIR)"
+    },
+    "slab7": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN BOTH CONTINUOUS BOTTOM END (Y-DIR)"
+    },
+    "slab8": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN BOTH CONTINUOUS TOP END (Y- DIR)"
+    },
+    "slab9": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED TOP END (Y-DIR)"
+    },
+    "slab10": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED BOTTOM END (Y-DIR)"
+    },
+    "slab11": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN CONTINUOUS RIGHT END (X-DIR)"
+    },
+    "slab12": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN CONTINUOUS LEFT END (X-DIR)"
+    },
+    "slab13": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED RIGHT END (X - DIR)"
+    },
+    "slab14": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN SIMPLY SUPPORTED LEFT END (X - DIR)"
+    },
+    "slab15": {
+        "category": "Slab",
+        "name": "SLAB DISTRIBUTION - TOP / BOTTOM BARS",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "slab16": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN BOTH CONTINUOUS LEFT END (X-DIR)"
+    },
+    "slab17": {
+        "category": "Slab",
+        "name": "ALTERNATE BENT UP BAR / CRANK BAR IN BOTH CONTINUOUS RIGHT END (X-DIR)"
+    },
+    "slab18": {
+        "category": "Slab",
+        "name": "CHAIRS IN SLAB"
+    },
+    "slab19": {
+        "category": "Slab",
+        "name": "SPRING BAR FOR CHAJJA/ CANTILEVER SLAB"
+    },
+    "slab20": {
+        "category": "Slab",
+        "name": "SLAB DISTRIBUTION - CRANK TOP BARS",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                -90,
+                -90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "up",
+                "right",
+                "down"
+            ],
+            "reverse_directions": [
+                "up",
+                "left",
+                "down"
+            ]
+        }
+    },
+    "slab21": {
+        "category": "Slab",
+        "name": "SLAB DISTRIBUTION - BOTTOM BARS",
+        "signature": {
+            "topology": "open_chain",
+            "segment_count": 3,
+            "signed_angles": [
+                90,
+                90
+            ],
+            "first_last_parallel": true,
+            "segment_directions": [
+                "down",
+                "right",
+                "up"
+            ],
+            "reverse_directions": [
+                "down",
+                "left",
+                "up"
+            ]
+        }
+    },
+    "slab22": {
+        "category": "Slab",
+        "name": "SLAB MAIN BAR- BENT UP BAR / CRANK BAR"
+    },
+    "slab23": {
+        "category": "Slab",
+        "name": "SLAB MAIN BAR- ALTERNATE BENT UP BAR / CRANK BAR"
+    },
+    "slab24": {
+        "category": "Slab",
+        "name": "SLAB IMAGE TESTING"
+    },
+    "slab25": {
+        "category": "Slab",
+        "name": "slab test",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 4,
+                "signed_angles": [
+                    -90,
+                    -46.83,
+                    46.83
+                ],
+                "first_last_parallel": false,
+                "segment_directions": [
+                    "up",
+                    "right",
+                    "down",
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left",
+                    "up",
+                    "left",
+                    "down"
+                ]
+            }
+        ]
+    },
+    "slab26": {
+        "category": "Slab",
+        "name": "abcd slab test final",
+        "signatures": [
+            {
+                "topology": "open_chain",
+                "segment_count": 4,
+                "signed_angles": [
+                    -90,
+                    -46.83,
+                    46.83
+                ],
+                "first_last_parallel": false,
+                "segment_directions": [
+                    "up",
+                    "right",
+                    "down",
+                    "right"
+                ],
+                "reverse_directions": [
+                    "left",
+                    "up",
+                    "left",
+                    "down"
+                ]
+            }
+        ]
+    }
+}
