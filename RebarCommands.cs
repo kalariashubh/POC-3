@@ -45,6 +45,7 @@ namespace RebarShapePlugin
 
                 Polyline poly = null;
                 List<Line> lines = new List<Line>();
+                List<Circle> circles = new List<Circle>(); // ADDED
 
                 foreach (SelectedObject so in ss)
                 {
@@ -57,6 +58,9 @@ namespace RebarShapePlugin
 
                     if (ent is Line)
                         lines.Add(ent as Line);
+
+                    if (ent is Circle) // ADDED
+                        circles.Add(ent as Circle);
                 }
 
                 List<Point2d> points = new List<Point2d>();
@@ -72,6 +76,14 @@ namespace RebarShapePlugin
                 else if (lines.Count > 0)
                 {
                     points = MergeLinesIntoPoints(lines);
+                }
+                else if (circles.Count > 0) // ADDED
+                {
+                    foreach (var circle in circles)
+                    {
+                        points.AddRange(SampleCircle(circle));
+                    }
+                    isClosed = true;
                 }
                 else
                 {
@@ -105,6 +117,24 @@ namespace RebarShapePlugin
 
                 tr.Commit();
             }
+        }
+
+        // ADDED FUNCTION
+        private List<Point2d> SampleCircle(Circle circle, int segments = 36)
+        {
+            List<Point2d> pts = new List<Point2d>();
+
+            for (int i = 0; i < segments; i++)
+            {
+                double angle = 2 * Math.PI * i / segments;
+
+                double x = circle.Center.X + circle.Radius * Math.Cos(angle);
+                double y = circle.Center.Y + circle.Radius * Math.Sin(angle);
+
+                pts.Add(new Point2d(x, y));
+            }
+
+            return pts;
         }
 
         private void SaveSignature(List<Point2d> points, bool isClosed, string imageName, string jsonPath)
@@ -144,7 +174,6 @@ namespace RebarShapePlugin
 
             string topology = isClosed ? "closed_chain" : "open_chain";
 
-            // Determine segment directions
             List<string> directions = new List<string>();
 
             foreach (var v in vectors)
@@ -162,7 +191,6 @@ namespace RebarShapePlugin
                 }
             }
 
-            // Reverse direction sequence
             List<string> reverseDirections = new List<string>();
 
             for (int i = directions.Count - 1; i >= 0; i--)
