@@ -44,6 +44,7 @@ namespace RebarShapePlugin
                 SelectionSet ss = psr.Value;
 
                 Polyline poly = null;
+                Polyline2d poly2d = null;
                 Polyline3d poly3d = null;
                 List<Line> lines = new List<Line>();
                 List<Circle> circles = new List<Circle>();
@@ -57,6 +58,9 @@ namespace RebarShapePlugin
                     if (ent is Polyline)
                         poly = ent as Polyline;
 
+                    if (ent is Polyline2d)
+                        poly2d = ent as Polyline2d;
+
                     if (ent is Polyline3d)
                         poly3d = ent as Polyline3d;
 
@@ -67,49 +71,94 @@ namespace RebarShapePlugin
                         circles.Add(ent as Circle);
                 }
 
-                List<Point2d> points = new List<Point2d>();
-                bool isClosed = false;
+                // Convert every collected entity into a unified segment list
+                List<(Point3d Start, Point3d End)> segments =
+                    new List<(Point3d, Point3d)>();
 
-                // Polyline alone
-                if (poly != null && poly3d == null && lines.Count == 0 && circles.Count == 0)
+                bool hasCircle = false;
+                List<Point2d> circlePoints = new List<Point2d>();
+
+                // --- Polyline (2D lightweight) ---
+                if (poly != null)
                 {
+                    List<Point3d> pts = new List<Point3d>();
                     for (int i = 0; i < poly.NumberOfVertices; i++)
-                        points.Add(poly.GetPoint2dAt(i));
-
-                    isClosed = poly.Closed;
+                    {
+                        Point2d p = poly.GetPoint2dAt(i);
+                        pts.Add(new Point3d(p.X, p.Y, 0));
+                    }
+                    for (int i = 0; i < pts.Count - 1; i++)
+                        segments.Add((pts[i], pts[i + 1]));
+                    if (poly.Closed && pts.Count > 1)
+                        segments.Add((pts.Last(), pts[0]));
                 }
-                // Polyline3d alone
-                else if (poly3d != null && poly == null && lines.Count == 0 && circles.Count == 0)
+
+                // --- Polyline2d ---
+                if (poly2d != null)
                 {
+                    List<Point3d> pts = new List<Point3d>();
+                    foreach (ObjectId vertexId in poly2d)
+                    {
+                        Vertex2d vertex =
+                            tr.GetObject(vertexId, OpenMode.ForRead) as Vertex2d;
+                        if (vertex != null)
+                            pts.Add(new Point3d(vertex.Position.X, vertex.Position.Y, 0));
+                    }
+                    for (int i = 0; i < pts.Count - 1; i++)
+                        segments.Add((pts[i], pts[i + 1]));
+                    if (poly2d.Closed && pts.Count > 1)
+                        segments.Add((pts.Last(), pts[0]));
+                }
+
+                // --- Polyline3d ---
+                if (poly3d != null)
+                {
+                    List<Point3d> pts = new List<Point3d>();
                     foreach (ObjectId vertexId in poly3d)
                     {
                         PolylineVertex3d vertex =
                             tr.GetObject(vertexId, OpenMode.ForRead) as PolylineVertex3d;
-
                         if (vertex != null)
-                            points.Add(new Point2d(vertex.Position.X, vertex.Position.Y));
+                            pts.Add(vertex.Position);
                     }
+                    for (int i = 0; i < pts.Count - 1; i++)
+                        segments.Add((pts[i], pts[i + 1]));
+                    if (poly3d.Closed && pts.Count > 1)
+                        segments.Add((pts.Last(), pts[0]));
+                }
 
-                    isClosed = poly3d.Closed;
-                }
-                // Lines alone
-                else if (lines.Count > 0 && poly == null && poly3d == null && circles.Count == 0)
+                // --- Lines ---
+                foreach (var line in lines)
+                    segments.Add((line.StartPoint, line.EndPoint));
+
+                // --- Circle (special: no segments, handled as sampled closed loop) ---
+                if (circles.Count > 0)
                 {
-                    points = MergeLinesIntoPoints(lines);
-                }
-                // Circle alone
-                else if (circles.Count > 0 && poly == null && poly3d == null && lines.Count == 0)
-                {
+                    hasCircle = true;
                     foreach (var circle in circles)
-                        points.AddRange(SampleCircle(circle));
+                        circlePoints.AddRange(SampleCircle(circle));
+                }
 
+                // ----------------------------------------------------------------
+                // Determine final points and isClosed
+                // ----------------------------------------------------------------
+                List<Point2d> points = new List<Point2d>();
+                bool isClosed = false;
+
+                if (segments.Count == 0 && hasCircle)
+                {
+                    // Circle only — no segments at all
+                    points = circlePoints;
                     isClosed = true;
                 }
-                // Any combination of Lines + Polyline3d (with no Polyline or Circle)
-                else if ((lines.Count > 0 || poly3d != null) && poly == null && circles.Count == 0)
+                else if (segments.Count > 0)
                 {
-                    points = MergeLines3dPolylineIntoPoints(lines, poly3d, tr);
+                    points = StitchSegments(segments);
                     isClosed = false;
+
+                    // If circles were also selected, append their sampled points
+                    if (hasCircle)
+                        points.AddRange(circlePoints);
                 }
                 else
                 {
@@ -145,36 +194,11 @@ namespace RebarShapePlugin
             }
         }
 
-        private List<Point2d> MergeLines3dPolylineIntoPoints(List<Line> lines, Polyline3d poly3d, Transaction tr)
+        // ----------------------------------------------------------------
+        // Single unified stitching method used for ALL entity combinations
+        // ----------------------------------------------------------------
+        private List<Point2d> StitchSegments(List<(Point3d Start, Point3d End)> segments)
         {
-            // Convert everything into simple segments: (start Point3d, end Point3d)
-            List<(Point3d Start, Point3d End)> segments = new List<(Point3d, Point3d)>();
-
-            // Add all Line segments
-            foreach (var line in lines)
-                segments.Add((line.StartPoint, line.EndPoint));
-
-            // Break the 3d polyline into individual segments between consecutive vertices
-            if (poly3d != null)
-            {
-                List<Point3d> poly3dPts = new List<Point3d>();
-
-                foreach (ObjectId vertexId in poly3d)
-                {
-                    PolylineVertex3d vertex =
-                        tr.GetObject(vertexId, OpenMode.ForRead) as PolylineVertex3d;
-
-                    if (vertex != null)
-                        poly3dPts.Add(vertex.Position);
-                }
-
-                for (int i = 0; i < poly3dPts.Count - 1; i++)
-                    segments.Add((poly3dPts[i], poly3dPts[i + 1]));
-
-                if (poly3d.Closed && poly3dPts.Count > 1)
-                    segments.Add((poly3dPts.Last(), poly3dPts[0]));
-            }
-
             // Build endpoint count map to find the free ends of the chain
             Dictionary<string, int> endpointCount = new Dictionary<string, int>();
 
@@ -191,6 +215,7 @@ namespace RebarShapePlugin
             }
 
             // Find a free end (degree == 1) to start walking from
+            // If none found (closed loop), just start from first segment
             Point3d startPoint = segments[0].Start;
 
             foreach (var seg in segments)
