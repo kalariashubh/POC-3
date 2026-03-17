@@ -44,8 +44,9 @@ namespace RebarShapePlugin
                 SelectionSet ss = psr.Value;
 
                 Polyline poly = null;
+                Polyline3d poly3d = null;
                 List<Line> lines = new List<Line>();
-                List<Circle> circles = new List<Circle>(); // ADDED
+                List<Circle> circles = new List<Circle>();
 
                 foreach (SelectedObject so in ss)
                 {
@@ -56,34 +57,59 @@ namespace RebarShapePlugin
                     if (ent is Polyline)
                         poly = ent as Polyline;
 
+                    if (ent is Polyline3d)
+                        poly3d = ent as Polyline3d;
+
                     if (ent is Line)
                         lines.Add(ent as Line);
 
-                    if (ent is Circle) // ADDED
+                    if (ent is Circle)
                         circles.Add(ent as Circle);
                 }
 
                 List<Point2d> points = new List<Point2d>();
                 bool isClosed = false;
 
-                if (poly != null)
+                // Polyline alone
+                if (poly != null && poly3d == null && lines.Count == 0 && circles.Count == 0)
                 {
                     for (int i = 0; i < poly.NumberOfVertices; i++)
                         points.Add(poly.GetPoint2dAt(i));
 
                     isClosed = poly.Closed;
                 }
-                else if (lines.Count > 0)
+                // Polyline3d alone
+                else if (poly3d != null && poly == null && lines.Count == 0 && circles.Count == 0)
+                {
+                    foreach (ObjectId vertexId in poly3d)
+                    {
+                        PolylineVertex3d vertex =
+                            tr.GetObject(vertexId, OpenMode.ForRead) as PolylineVertex3d;
+
+                        if (vertex != null)
+                            points.Add(new Point2d(vertex.Position.X, vertex.Position.Y));
+                    }
+
+                    isClosed = poly3d.Closed;
+                }
+                // Lines alone
+                else if (lines.Count > 0 && poly == null && poly3d == null && circles.Count == 0)
                 {
                     points = MergeLinesIntoPoints(lines);
                 }
-                else if (circles.Count > 0) // ADDED
+                // Circle alone
+                else if (circles.Count > 0 && poly == null && poly3d == null && lines.Count == 0)
                 {
                     foreach (var circle in circles)
-                    {
                         points.AddRange(SampleCircle(circle));
-                    }
+
                     isClosed = true;
+                }
+                // Any combination of Lines + Polyline3d (with no Polyline or Circle)
+                else if ((lines.Count > 0 || poly3d != null) && poly == null && circles.Count == 0)
+                {
+                    points = MergeLines3dPolylineIntoPoints(lines, poly3d, tr);
+                    isClosed = false;
                 }
                 else
                 {
@@ -119,7 +145,97 @@ namespace RebarShapePlugin
             }
         }
 
-        // ADDED FUNCTION
+        private List<Point2d> MergeLines3dPolylineIntoPoints(List<Line> lines, Polyline3d poly3d, Transaction tr)
+        {
+            // Convert everything into simple segments: (start Point3d, end Point3d)
+            List<(Point3d Start, Point3d End)> segments = new List<(Point3d, Point3d)>();
+
+            // Add all Line segments
+            foreach (var line in lines)
+                segments.Add((line.StartPoint, line.EndPoint));
+
+            // Break the 3d polyline into individual segments between consecutive vertices
+            if (poly3d != null)
+            {
+                List<Point3d> poly3dPts = new List<Point3d>();
+
+                foreach (ObjectId vertexId in poly3d)
+                {
+                    PolylineVertex3d vertex =
+                        tr.GetObject(vertexId, OpenMode.ForRead) as PolylineVertex3d;
+
+                    if (vertex != null)
+                        poly3dPts.Add(vertex.Position);
+                }
+
+                for (int i = 0; i < poly3dPts.Count - 1; i++)
+                    segments.Add((poly3dPts[i], poly3dPts[i + 1]));
+
+                if (poly3d.Closed && poly3dPts.Count > 1)
+                    segments.Add((poly3dPts.Last(), poly3dPts[0]));
+            }
+
+            // Build endpoint count map to find the free ends of the chain
+            Dictionary<string, int> endpointCount = new Dictionary<string, int>();
+
+            foreach (var seg in segments)
+            {
+                string s = Key(seg.Start);
+                string e = Key(seg.End);
+
+                if (!endpointCount.ContainsKey(s)) endpointCount[s] = 0;
+                if (!endpointCount.ContainsKey(e)) endpointCount[e] = 0;
+
+                endpointCount[s]++;
+                endpointCount[e]++;
+            }
+
+            // Find a free end (degree == 1) to start walking from
+            Point3d startPoint = segments[0].Start;
+
+            foreach (var seg in segments)
+            {
+                if (endpointCount[Key(seg.Start)] == 1)
+                {
+                    startPoint = seg.Start;
+                    break;
+                }
+
+                if (endpointCount[Key(seg.End)] == 1)
+                {
+                    startPoint = seg.End;
+                    break;
+                }
+            }
+
+            List<Point2d> result = new List<Point2d>();
+            Point3d current = startPoint;
+            List<(Point3d Start, Point3d End)> remaining =
+                new List<(Point3d Start, Point3d End)>(segments);
+
+            result.Add(new Point2d(current.X, current.Y));
+
+            while (remaining.Count > 0)
+            {
+                var next = remaining.FirstOrDefault(seg =>
+                    IsSamePoint(seg.Start, current) ||
+                    IsSamePoint(seg.End, current));
+
+                if (next == default) break;
+
+                if (IsSamePoint(next.Start, current))
+                    current = next.End;
+                else
+                    current = next.Start;
+
+                result.Add(new Point2d(current.X, current.Y));
+
+                remaining.Remove(next);
+            }
+
+            return result;
+        }
+
         private List<Point2d> SampleCircle(Circle circle, int segments = 36)
         {
             List<Point2d> pts = new List<Point2d>();
