@@ -147,7 +147,6 @@ namespace RebarShapePlugin
 
                 if (segments.Count == 0 && hasCircle)
                 {
-                    // Circle only — no segments at all
                     points = circlePoints;
                     isClosed = true;
                 }
@@ -156,7 +155,6 @@ namespace RebarShapePlugin
                     points = StitchSegments(segments);
                     isClosed = false;
 
-                    // If circles were also selected, append their sampled points
                     if (hasCircle)
                         points.AddRange(circlePoints);
                 }
@@ -185,7 +183,7 @@ namespace RebarShapePlugin
                 string jsonName = $"shape_{nextId}.json";
                 string jsonPath = Path.Combine(PreviewDirectory, jsonName);
 
-                SaveSignature(points, isClosed, imageName, jsonPath);
+                SaveSignature(points, isClosed, jsonPath);
 
                 ed.WriteMessage($"\nPreview saved as {imageName}");
                 ed.WriteMessage($"\nSignature saved as {jsonName}");
@@ -199,7 +197,6 @@ namespace RebarShapePlugin
         // ----------------------------------------------------------------
         private List<Point2d> StitchSegments(List<(Point3d Start, Point3d End)> segments)
         {
-            // Build endpoint count map to find the free ends of the chain
             Dictionary<string, int> endpointCount = new Dictionary<string, int>();
 
             foreach (var seg in segments)
@@ -214,8 +211,6 @@ namespace RebarShapePlugin
                 endpointCount[e]++;
             }
 
-            // Find a free end (degree == 1) to start walking from
-            // If none found (closed loop), just start from first segment
             Point3d startPoint = segments[0].Start;
 
             foreach (var seg in segments)
@@ -278,7 +273,7 @@ namespace RebarShapePlugin
             return pts;
         }
 
-        private void SaveSignature(List<Point2d> points, bool isClosed, string imageName, string jsonPath)
+        private void SaveSignature(List<Point2d> points, bool isClosed, string jsonPath)
         {
             List<Vector2d> vectors = new List<Vector2d>();
 
@@ -354,8 +349,7 @@ namespace RebarShapePlugin
                     first_last_parallel = firstLastParallel,
                     segment_directions = directions,
                     reverse_directions = reverseDirections
-                },
-                preview_image = imageName
+                }
             };
 
             string json = JsonSerializer.Serialize(jsonObject,
