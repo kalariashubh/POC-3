@@ -48,6 +48,7 @@ namespace RebarShapePlugin
                 Polyline3d poly3d = null;
                 List<Line> lines = new List<Line>();
                 List<Circle> circles = new List<Circle>();
+                List<Arc> arcs = new List<Arc>();
 
                 foreach (SelectedObject so in ss)
                 {
@@ -69,11 +70,22 @@ namespace RebarShapePlugin
 
                     if (ent is Circle)
                         circles.Add(ent as Circle);
+
+                    if (ent is Arc)
+                        arcs.Add(ent as Arc);
                 }
 
                 // Convert every collected entity into a unified segment list
                 List<(Point3d Start, Point3d End)> segments =
                     new List<(Point3d, Point3d)>();
+
+                // For arc sampled points we store them keyed by their
+                // (start, end) anchor so StitchSegments can order them correctly
+                // We use a separate list of point chains for arcs; each arc
+                // becomes a chain of Point3d that gets inserted in order during
+                // stitching via the arc segment map below
+                Dictionary<string, List<Point3d>> arcChains =
+                    new Dictionary<string, List<Point3d>>();
 
                 bool hasCircle = false;
                 List<Point2d> circlePoints = new List<Point2d>();
@@ -131,6 +143,25 @@ namespace RebarShapePlugin
                 foreach (var line in lines)
                     segments.Add((line.StartPoint, line.EndPoint));
 
+                // --- Arcs ---
+                // Each arc is sampled into a chain of points.
+                // We register it as a single logical segment from its
+                // true StartPoint to its true EndPoint so it participates
+                // in stitching correctly. The intermediate sampled points
+                // are stored in arcChains and expanded during final assembly.
+                foreach (var arc in arcs)
+                {
+                    List<Point3d> chain = SampleArc3d(arc);
+
+                    Point3d arcStart = chain.First();
+                    Point3d arcEnd = chain.Last();
+
+                    string key = ArcKey(arcStart, arcEnd);
+                    arcChains[key] = chain;
+
+                    segments.Add((arcStart, arcEnd));
+                }
+
                 // --- Circle (special: no segments, handled as sampled closed loop) ---
                 if (circles.Count > 0)
                 {
@@ -152,7 +183,7 @@ namespace RebarShapePlugin
                 }
                 else if (segments.Count > 0)
                 {
-                    points = StitchSegments(segments);
+                    points = StitchSegments(segments, arcChains);
                     isClosed = false;
 
                     if (hasCircle)
@@ -193,10 +224,52 @@ namespace RebarShapePlugin
         }
 
         // ----------------------------------------------------------------
-        // Single unified stitching method used for ALL entity combinations
+        // Sample an Arc into a chain of Point3d (forward CCW direction)
         // ----------------------------------------------------------------
-        private List<Point2d> StitchSegments(List<(Point3d Start, Point3d End)> segments)
+        private List<Point3d> SampleArc3d(Arc arc, int segmentsPerFullCircle = 72)
         {
+            List<Point3d> pts = new List<Point3d>();
+
+            double startAngle = arc.StartAngle;
+            double endAngle = arc.EndAngle;
+
+            double sweepAngle = endAngle - startAngle;
+            if (sweepAngle <= 0)
+                sweepAngle += 2 * Math.PI;
+
+            int segments = (int)Math.Ceiling(segmentsPerFullCircle * sweepAngle / (2 * Math.PI));
+            if (segments < 3) segments = 3;
+
+            for (int i = 0; i <= segments; i++)
+            {
+                double angle = startAngle + sweepAngle * i / segments;
+                double x = arc.Center.X + arc.Radius * Math.Cos(angle);
+                double y = arc.Center.Y + arc.Radius * Math.Sin(angle);
+                pts.Add(new Point3d(x, y, 0));
+            }
+
+            return pts;
+        }
+
+        // Key that identifies an arc chain by its two anchor endpoints.
+        // We store both directions (start→end and end→start) so we can
+        // look up the chain regardless of which way stitching traverses it.
+        private string ArcKey(Point3d a, Point3d b)
+        {
+            return $"{Math.Round(a.X, 3)}_{Math.Round(a.Y, 3)}" +
+                   $"|{Math.Round(b.X, 3)}_{Math.Round(b.Y, 3)}";
+        }
+
+        // ----------------------------------------------------------------
+        // Unified stitching — arc chains are expanded inline
+        // ----------------------------------------------------------------
+        private List<Point2d> StitchSegments(
+            List<(Point3d Start, Point3d End)> segments,
+            Dictionary<string, List<Point3d>> arcChains = null)
+        {
+            if (arcChains == null)
+                arcChains = new Dictionary<string, List<Point3d>>();
+
             Dictionary<string, int> endpointCount = new Dictionary<string, int>();
 
             foreach (var seg in segments)
@@ -243,13 +316,36 @@ namespace RebarShapePlugin
 
                 if (next == default) break;
 
-                if (IsSamePoint(next.Start, current))
-                    current = next.End;
+                bool forward = IsSamePoint(next.Start, current);
+
+                Point3d segStart = forward ? next.Start : next.End;
+                Point3d segEnd = forward ? next.End : next.Start;
+
+                // Check if this segment is actually an arc chain
+                string keyFwd = ArcKey(segStart, segEnd);
+                string keyRev = ArcKey(segEnd, segStart);
+
+                if (arcChains.ContainsKey(keyFwd))
+                {
+                    // Expand arc chain forward (skip first point, already in result)
+                    List<Point3d> chain = arcChains[keyFwd];
+                    for (int i = 1; i < chain.Count; i++)
+                        result.Add(new Point2d(chain[i].X, chain[i].Y));
+                }
+                else if (arcChains.ContainsKey(keyRev))
+                {
+                    // Expand arc chain reversed (skip first point)
+                    List<Point3d> chain = arcChains[keyRev];
+                    for (int i = chain.Count - 2; i >= 0; i--)
+                        result.Add(new Point2d(chain[i].X, chain[i].Y));
+                }
                 else
-                    current = next.Start;
+                {
+                    // Normal straight segment — just add the endpoint
+                    result.Add(new Point2d(segEnd.X, segEnd.Y));
+                }
 
-                result.Add(new Point2d(current.X, current.Y));
-
+                current = segEnd;
                 remaining.Remove(next);
             }
 
