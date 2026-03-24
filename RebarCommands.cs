@@ -144,11 +144,6 @@ namespace RebarShapePlugin
                     segments.Add((line.StartPoint, line.EndPoint));
 
                 // --- Arcs ---
-                // Each arc is sampled into a chain of points.
-                // We register it as a single logical segment from its
-                // true StartPoint to its true EndPoint so it participates
-                // in stitching correctly. The intermediate sampled points
-                // are stored in arcChains and expanded during final assembly.
                 foreach (var arc in arcs)
                 {
                     List<Point3d> chain = SampleArc3d(arc);
@@ -474,7 +469,6 @@ namespace RebarShapePlugin
                         maxId = id;
                 }
             }
-
             return maxId + 1;
         }
 
